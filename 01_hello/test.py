@@ -2,7 +2,9 @@
 """tests for hello.py"""
 
 import os
-from subprocess import getstatusoutput, getoutput
+import sys
+from subprocess import getstatusoutput, getoutput, check_output
+import subprocess
 
 prg = './hello.py'
 
@@ -26,10 +28,20 @@ def test_runnable():
 def test_executable():
     """Says 'Hello, World!' by default"""
 
-    out = getoutput(prg)
-    assert out.strip() == 'Hello, World!'
+   # out = getoutput(prg)
+   # assert out.strip() == 'Hello, World!'
+    
+ 
 
-
+    try:
+        output = subprocess.check_output(['python3', prg])
+       # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print ("Command error: " + e.output)
+        print ("Command output: " + output)
+        sys.exit(e.returncode)
+    assert output.decode('utf-8').strip() == 'Hello, World!'
+   
 # --------------------------------------------------
 def test_usage():
     """usage"""
