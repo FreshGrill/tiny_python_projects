@@ -31,3 +31,5 @@ tex2pdf*
 19_wod/wod.py
 20_password/password.py
 21_tictactoe/tictactoe.py
+
+01_hello/venv/
