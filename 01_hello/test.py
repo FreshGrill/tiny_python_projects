@@ -28,28 +28,28 @@ def test_runnable():
 def test_executable():
     """Says 'Hello, World!' by default"""
 
-   # out = getoutput(prg)
-   # assert out.strip() == 'Hello, World!'
-    
- 
+    # out = getoutput(prg)
+    # assert out.strip() == 'Hello, World!'
 
     try:
         output = subprocess.check_output(['python3', prg])
-       # print ("Command output: " + output.decode('utf-8'))
+    # print ("Command output: " + output.decode('utf-8'))
     except subprocess.CalledProcessError as e:
-        print ("Command error: " + e.output)
-        print ("Command output: " + output)
+        print("Command error: " + e.output)
+        print("Command output: " + output)
         sys.exit(e.returncode)
     assert output.decode('utf-8').strip() == 'Hello, World!'
-   
+
+
 # --------------------------------------------------
 def test_usage():
     """usage"""
 
     for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
-        assert rv == 0
-        assert out.lower().startswith('usage')
+        # rv, out = getstatusoutput(f'{prg} {flag}')
+        out = subprocess.check_output(['python3', prg, flag])
+        #  assert rv == 0
+        assert out.decode('utf-8').lower().startswith('usage')
 
 
 # --------------------------------------------------
