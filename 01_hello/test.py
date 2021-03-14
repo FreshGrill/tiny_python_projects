@@ -47,8 +47,14 @@ def test_usage():
 
     for flag in ['-h', '--help']:
         # rv, out = getstatusoutput(f'{prg} {flag}')
-        out = subprocess.check_output(['python3', prg, flag])
+        try:
+            out = subprocess.check_output(['python3', prg, flag])
         #  assert rv == 0
+        except subprocess.CalledProcessError as e:
+            print("Command error: " + e.output)
+            print("Command output: " + output)
+            sys.exit(e.returncode)
+
         assert out.decode('utf-8').lower().startswith('usage')
 
 
@@ -58,6 +64,12 @@ def test_input():
 
     for val in ['Universe', 'Multiverse']:
         for option in ['-n', '--name']:
-            rv, out = getstatusoutput(f'{prg} {option} {val}')
-            assert rv == 0
-            assert out.strip() == f'Hello, {val}!'
+            try:
+                out = subprocess.check_output(['python3', prg, option, val])
+            # rv, out = getstatusoutput(f'{prg} {option} {val}')
+            except subprocess.CalledProcessError as e:
+                print("Command error: " + e.output)
+                print("Command output: " + output)
+                sys.exit(e.returncode)
+            # assert rv == 0
+            assert out.decode('utf-8').strip() == f'Hello, {val}!'
