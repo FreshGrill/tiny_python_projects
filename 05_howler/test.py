@@ -2,10 +2,11 @@
 """tests for howler.py"""
 
 import os
-import re
 import random
+import re
 import string
-from subprocess import getstatusoutput, getoutput
+import subprocess
+import sys
 
 prg = './howler.py'
 
@@ -37,10 +38,19 @@ def test_usage():
     """usage"""
 
     for flag in ['-h', '--help']:
-        rv, out = getstatusoutput(f'{prg} {flag}')
-        assert rv == 0
-        assert re.match("usage", out, re.IGNORECASE)
-
+        # rv, out = getstatusoutput(f'{prg} {flag}')
+        #assert rv == 0
+        #assert re.match("usage", out, re.IGNORECASE)
+        output = ""
+        try:
+            output = subprocess.check_output(["python3", prg, flag])
+            # print ("Command output: " + output.decode('utf-8'))
+        except subprocess.CalledProcessError as e:
+            print("Command error: " + e.output)
+            print("Command output: " + output)
+            sys.exit(e.returncode)
+        # assert False,output.decode('utf-8').lower()
+        assert re.match("usage",output.decode("utf-8"),re.IGNORECASE)
 
 # --------------------------------------------------
 def test_text_stdout():

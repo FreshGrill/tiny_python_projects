@@ -17,7 +17,9 @@ def get_args():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
-    parser.add_argument("str", metavar="str", nargs="+", help="Items(s) to bring")
+    parser.add_argument(
+        "str", metavar="str", nargs="+", help="Items(s) to bring"
+    )
 
     parser.add_argument(
         "-s",
