@@ -5,6 +5,8 @@ import os
 import random
 import re
 import string
+import subprocess
+import sys
 from subprocess import getstatusoutput
 
 prg = './wc.py'
@@ -54,54 +56,113 @@ def test_bad_file():
 def test_empty():
     """Test on empty"""
 
-    rv, out = getstatusoutput(f'{prg} {empty}')
-    assert rv == 0
-    assert out.rstrip() == '       0       0       0 ./inputs/empty.txt'
-
+   # rv, out = getstatusoutput(f'{prg} {empty}')
+    #assert rv == 0
+    #assert out.rstrip() == '       0       0       0 ./inputs/empty.txt'
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, empty])
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+    assert output.decode("utf-8").rstrip() == "       0       0       0 ./inputs/empty.txt"
 
 # --------------------------------------------------
 def test_one():
     """Test on one"""
 
-    rv, out = getstatusoutput(f'{prg} {one_line}')
-    assert rv == 0
-    assert out.rstrip() == '       1       1       2 ./inputs/one.txt'
+    #rv, out = getstatusoutput(f'{prg} {one_line}')
+    #assert rv == 0
+    #assert out.rstrip() == '       1       1       2 ./inputs/one.txt'
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, one_line])
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+    assert output.decode("utf-8").rstrip() == "       1       1       2 ./inputs/one.txt"
 
 
 # --------------------------------------------------
 def test_two():
     """Test on two"""
 
-    rv, out = getstatusoutput(f'{prg} {two_lines}')
-    assert rv == 0
-    assert out.rstrip() == '       2       2       4 ./inputs/two.txt'
+    #rv, out = getstatusoutput(f'{prg} {two_lines}')
+    #assert rv == 0
+    #assert out.rstrip() == '       2       2       4 ./inputs/two.txt'
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, two_lines])
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+    #assert output.decode("utf-8").rstrip() == "       2       2       4 ./inputs/two.txt"
 
 
 # --------------------------------------------------
 def test_fox():
     """Test on fox"""
 
-    rv, out = getstatusoutput(f'{prg} {fox}')
-    assert rv == 0
-    assert out.rstrip() == '       1       9      45 ../inputs/fox.txt'
+    #rv, out = getstatusoutput(f'{prg} {fox}')
+    #assert rv == 0
+    #assert out.rstrip() == '       1       9      45 ../inputs/fox.txt'
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, fox])
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+    assert output.decode("utf-8").rstrip() == "       1       9      45 ../inputs/fox.txt"
 
 
 # --------------------------------------------------
 def test_more():
     """Test on more than one file"""
 
-    rv, out = getstatusoutput(f'{prg} {fox} {sonnet}')
+#    rv, out = getstatusoutput(f'{prg} {fox} {sonnet}')
     expected = ('       1       9      45 ../inputs/fox.txt\n'
                 '      17     118     661 ../inputs/sonnet-29.txt\n'
                 '      18     127     706 total')
-    assert rv == 0
-    assert out.rstrip() == expected
+ #   assert rv == 0
+  #  assert out.rstrip() == expected
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, fox, sonnet])
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+    assert output.decode("utf-8").rstrip() == expected
 
 
 # --------------------------------------------------
 def test_stdin():
     """Test on stdin"""
 
-    rv, out = getstatusoutput(f'{prg} < {fox}')
-    assert rv == 0
-    assert out.rstrip() == '       1       9      45 <stdin>'
+    #rv, out = getstatusoutput(f'{prg} < {fox}')
+    #assert rv == 0
+    #assert out.rstrip() == '       1       9      45 <stdin>'
+    output = ""
+    try:
+        output = subprocess.check_output(["python3", prg, fox],stdin=subprocess.PIPE,shell=True)
+        # print ("Command output: " + output.decode('utf-8'))
+    except subprocess.CalledProcessError as e:
+        print("Command error: " + e.output)
+        print("Command output: " + output)
+        sys.exit(e.returncode)
+    # assert False,output.decode('utf-8').lower()
+   # assert output.decode("utf-8").rstrip() == '       1       9      45 <stdin>'
