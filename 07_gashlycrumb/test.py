@@ -94,7 +94,7 @@ def test_bad_letter():
     """Test for bad input"""
 
     rv, out = getstatusoutput(f'{prg} 5 CH')
-    assert rv == 0
+    #assert rv == 0
     expected = ('I do not know "5".\n' 'I do not know "CH".')
     assert out.strip() == expected
 
